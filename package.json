@@ -1,0 +1,33 @@
+{
+  "name": "opcommands",
+  "version": "1.0.0",
+  "description": "An advanced Discord.js Command Handler that supports slash commands and more!",
+  "main": "src/OPCommands.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord.js",
+    "discord",
+    "handler",
+    "command",
+    "slash"
+  ],
+  "author": "LukeIsHereToDevelop <lukeisheretodevelop@pm.me> (https://lukedev.tk)",
+  "homepage": "https://opcommands.lukedev.tk",
+  "bugs": {
+    "url": "https://github.com/LukeIsHereToDevelop/opcommands/issues"
+  },
+  "repository": "github:LukeIsHereToDevelop/opcommands",
+  "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": "^16.6.0"
+  },
+  "dependencies": {
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.22.0",
+    "discord.js": "^13.0.1",
+    "humanize-ms": "^1.2.1",
+    "ms": "^2.1.3"
+  }
+}
