@@ -41,7 +41,7 @@ class CommandHandler {
             (async () => {
                 try {
                     await rest.put(
-                        Routes.applicationGuildCommands(_this.client.application?.id, "678352388251451433"),
+                        Routes.applicationCommands(_this.client.application?.id),
                         { body: _this.client.commands },
                     );
                 } catch (error) {
