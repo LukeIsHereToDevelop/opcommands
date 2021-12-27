@@ -7,6 +7,8 @@ const client = new Discord.Client({
 const handler = new OPCommands(client, {
     commandsDir: "commands",
     eventsDir: "events",
+    testGuildID: "GUILD_ID",
+    testMode: false,
     logs: true
 });
 handler.setBotOwner("OWNER_ID");

@@ -21,7 +21,7 @@ npm install --save opcommands
 
 ## Documentation
 
-Here is the official Documentation of OPCommands: https://opcommands.lukedev.tk
+Here is the official Documentation of OPCommands: https://opcommands.lukedev.site
 
 ## Contributing
 

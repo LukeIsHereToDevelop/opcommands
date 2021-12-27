@@ -28,7 +28,7 @@ class CommandHandler {
             const commandFile = require(path.join(require.main.path, commandsDir, file));
             _this.client.commands.set(commandFile.name, commandFile);
             const commandObj = {
-                name: commandFile.name,
+                name: commandFile.name.toLowerCase(),
                 description: commandFile.description
             };
             if (commandFile.options) Object.assign(commandObj, {options: commandFile.options});
@@ -38,16 +38,30 @@ class CommandHandler {
         _this.client.on("ready", async () => {
             const rest = new REST({ version: "9" }).setToken(_this.client.token);
 
-            (async () => {
-                try {
-                    await rest.put(
-                        Routes.applicationCommands(_this.client.application?.id),
-                        { body: _this.client.commands },
-                    );
-                } catch (error) {
-                    console.error(error);
-                }
-            })();
+            if (_this.options.testMode === true) {
+                if (!_this.options.testGuildID) throw new Error("[OPCommands] Unvalid or missing 'testGuildID' option in main class.");
+                (async () => {
+                    try {
+                        await rest.put(
+                            Routes.applicationGuildCommands(_this.client.application?.id, _this.options.testGuildID),
+                            { body: _this.client.commands }
+                        )
+                    } catch (error) {
+                        console.error(error);
+                    }
+                })();
+            } else {
+                (async () => {
+                    try {
+                        await rest.put(
+                            Routes.applicationCommands(_this.client.application?.id),
+                            { body: _this.client.commands },
+                        );
+                    } catch (error) {
+                        console.error(error);
+                    }
+                })();
+            }
         });
 
         const cooldowns = new Discord.Collection();
