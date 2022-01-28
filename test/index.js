@@ -9,7 +9,9 @@ const handler = new OPCommands(client, {
     eventsDir: "events",
     testGuildID: "GUILD_ID",
     testMode: false,
-    logs: true
+    logs: true,
+    notifyOwner: true,
+    notifyOwnerMessage: "I'm online"
 });
 handler.setBotOwner("OWNER_ID");
 handler.setMessages({
