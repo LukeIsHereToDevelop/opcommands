@@ -103,9 +103,9 @@ class CommandHandler {
             };
 
             try {
-                if (_this.options.logs) console.log("[OPCommands] Command executed: " + interaction.commandName);
+                if (_this.options.logs) console.log(`[OPCommands] Command '${interaction.commandName}' executed by: '${interaction.user.tag}'`);
                 _this.client.commands.get(interaction.commandName).run(_this.client, interaction);
-            } catch (e) {
+            } catch (e) ''
                 if (_this.options.logs) console.log("[OPCommands] Command error: " + interaction.commandName);
                 console.error(e);
             }
