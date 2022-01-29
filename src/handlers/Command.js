@@ -17,7 +17,6 @@ class CommandHandler {
     constructor (_this, commandsDir) {
         if (!this) throw new Error("[OPCommands] Internal error: missing _this parameter on Command Handler.");
         if (!commandsDir) throw new Error("[OPCommands] Internal error: missing eventsDir parameter on Command Handler.");
-        if (_this.options.notifyOwner && !_this.options.notifyOwnerMessage) throw new Error("[OPCommands] Missing notifyOwnerMessage parameter on options.");
         if (!fs.existsSync(commandsDir)) throw new Error("[OPCommands] Unexisting command directory.");
 
         _this.client.commands = new Discord.Collection();
@@ -25,6 +24,7 @@ class CommandHandler {
         const commands = [];
 
         if (_this.options.logs) console.log("[OPCommands] Loaded " + files.length + " commands.");
+
         for (const file of files) {
             const commandFile = require(path.join(require.main.path, commandsDir, file));
             _this.client.commands.set(commandFile.name, commandFile);
@@ -38,9 +38,9 @@ class CommandHandler {
 
         _this.client.on("ready", async () => {
             const rest = new REST({ version: "9" }).setToken(_this.client.token);
-
+            if (_this.options.notifyOwner && !_this.client.msgs.notifyOwnerMessage) throw new Error("[OPCommands] Missing notifyOwnerMessage parameter.");
             if (_this.options.notifyOwner) _this.client.users.fetch(_this.client.owners[0]).then(user => {
-                user.send(_this.options.notifyOwnerMessage);
+                user.send(_this.client.msgs.notifyOwnerMessage);
             });
             if (_this.options.testMode === true) {
                 if (!_this.options.testGuildID) throw new Error("[OPCommands] Unvalid or missing 'testGuildID' option in main class.");
@@ -109,7 +109,7 @@ class CommandHandler {
             try {
                 if (_this.options.logs) console.log(`[OPCommands] Command '${interaction.commandName}' executed by: '${interaction.user.tag}'`);
                 _this.client.commands.get(interaction.commandName).run(_this.client, interaction);
-                if (commandFile.limits.permissions == ('ADMINISTRATOR').toLowerCase()) {
+                if (_this.options.notifyOwner && (commandFile.limits.permissions == ('ADMINISTRATOR').toLowerCase())) {
                     _this.client.users.fetch(_this.client.owners[0]).then(user => {
                         user.send("[Logs] Administrator command `" + interaction.commandName + "` was executed by " + `<@${interaction.user.id}> in **${interaction.guild.name}**`);
                     });
