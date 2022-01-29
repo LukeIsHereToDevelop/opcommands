@@ -57,7 +57,6 @@ class OPCommands {
      */
     async setMessages(msgs) {
         if (!msgs) throw new Error("[OPCommands] Missing the new messages.");
-        if (typeof msgs.notifyOwnerMessage != "string" ) throw new Error("[OPCommands] notifyOwnerMessage parameter must be a string.");
         if (typeof msgs != "object") throw new Error("[OPCommands] Msgs parameter must be an Object.");
         return this.client.msgs = msgs;
     }
