@@ -11,13 +11,13 @@ const handler = new OPCommands(client, {
     testMode: false,
     logs: true,
     notifyOwner: true,
-    notifyOwnerMessage: "I'm online"
 });
 handler.setBotOwner("OWNER_ID");
 handler.setMessages({
     ownerOnly: (interaction) => interaction.reply("Missing **Bot Owner** permission."),
     permissions: (interaction, perms) => interaction.reply(`You are missing the following permissions: **${perms.join(", ")}**`),
-    cooldown: (interaction, cooldown) => interaction.reply(`You must wait **${cooldown}** before executing another command.`)
+    cooldown: (interaction, cooldown) => interaction.reply(`You must wait **${cooldown}** before executing another command.`),
+    notifyOwnerMessage: "I'm online!", // The notifyOwnerMessage parameter has to be a String if the notifyOwner option is enabled.
 });
 
 client.login("BOT_TOKEN");
