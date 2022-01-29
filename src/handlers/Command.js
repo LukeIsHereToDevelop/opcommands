@@ -39,9 +39,12 @@ class CommandHandler {
         _this.client.on("ready", async () => {
             const rest = new REST({ version: "9" }).setToken(_this.client.token);
             if (_this.options.notifyOwner && !_this.client.msgs.notifyOwnerMessage) throw new Error("[OPCommands] Missing notifyOwnerMessage parameter.");
-            if (_this.options.notifyOwner) _this.client.users.fetch(_this.client.owners[0]).then(user => {
-                user.send(_this.client.msgs.notifyOwnerMessage);
-            });
+            if (_this.client.msgs.notifyOwnerMessage) {
+              _this.client.msgs.notifyOwnerMessage(user); 
+            } else {
+              // if there isn't any message, it uses a default one
+              user.send("I'm online!");
+            };
             if (_this.options.testMode === true) {
                 if (!_this.options.testGuildID) throw new Error("[OPCommands] Unvalid or missing 'testGuildID' option in main class.");
                 (async () => {
