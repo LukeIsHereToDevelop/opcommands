@@ -24,6 +24,7 @@ class CommandHandler {
         const commands = [];
 
         if (_this.options.logs) console.log("[OPCommands] Loaded " + files.length + " commands.");
+
         for (const file of files) {
             const commandFile = require(path.join(require.main.path, commandsDir, file));
             _this.client.commands.set(commandFile.name, commandFile);
@@ -37,7 +38,13 @@ class CommandHandler {
 
         _this.client.on("ready", async () => {
             const rest = new REST({ version: "9" }).setToken(_this.client.token);
-
+            if (_this.options.notifyOwner && !_this.client.msgs.notifyOwnerMessage) throw new Error("[OPCommands] Missing notifyOwnerMessage parameter.");
+            if (_this.client.msgs.notifyOwnerMessage) {
+              _this.client.msgs.notifyOwnerMessage(user); 
+            } else {
+              // if there isn't any message, it uses a default one
+              user.send("I'm online!");
+            };
             if (_this.options.testMode === true) {
                 if (!_this.options.testGuildID) throw new Error("[OPCommands] Unvalid or missing 'testGuildID' option in main class.");
                 (async () => {
@@ -103,8 +110,13 @@ class CommandHandler {
             };
 
             try {
-                if (_this.options.logs) console.log("[OPCommands] Command executed: " + interaction.commandName);
+                if (_this.options.logs) console.log(`[OPCommands] Command '${interaction.commandName}' executed by: '${interaction.user.tag}'`);
                 _this.client.commands.get(interaction.commandName).run(_this.client, interaction);
+                if (_this.options.notifyOwner && (commandFile.limits.permissions == ('ADMINISTRATOR').toLowerCase())) {
+                    _this.client.users.fetch(_this.client.owners[0]).then(user => {
+                        user.send("[Logs] Administrator command `" + interaction.commandName + "` was executed by " + `<@${interaction.user.id}> in **${interaction.guild.name}**`);
+                    });
+                }
             } catch (e) {
                 if (_this.options.logs) console.log("[OPCommands] Command error: " + interaction.commandName);
                 console.error(e);

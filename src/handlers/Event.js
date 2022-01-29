@@ -20,7 +20,12 @@ class EventHandler {
         for (const file of files) {
             const eventFile = require(path.join(require.main.path, eventsDir, file));
             if (eventFile.settings.once) {
-                _this.client.once(eventFile.name, (...args) => eventFile.run(_this.client, ...args));
+                _this.client.once(eventFile.name, (...args) => { 
+                    eventFile.run(_this.client, ...args); 
+                    if(_this.options.logs) {
+                    console.log('[OPCommands] One-time event executed: ' + eventFile.name)
+                    }
+                });
             } else {
                 _this.client.on(eventFile.name, (...args) => eventFile.run(_this.client, ...args));
             };
