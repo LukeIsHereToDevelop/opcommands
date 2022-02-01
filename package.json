@@ -1,6 +1,6 @@
 {
   "name": "opcommands",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "An advanced Discord.js Command Handler that supports slash commands and more!",
   "main": "src/OPCommands.js",
   "scripts": {
