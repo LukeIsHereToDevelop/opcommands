@@ -39,6 +39,7 @@ class CommandHandler {
         _this.client.on("ready", async () => {
             const rest = new REST({ version: "9" }).setToken(_this.client.token);
             if (_this.options.notifyOwner && !_this.client.msgs.notifyOwnerMessage) throw new Error("[OPCommands] Missing notifyOwnerMessage parameter.");
+            const user = await _this.client.users.fetch(_this.client.owners[0]);
             if (_this.client.msgs.notifyOwnerMessage) {
               _this.client.msgs.notifyOwnerMessage(user); 
             } else {
