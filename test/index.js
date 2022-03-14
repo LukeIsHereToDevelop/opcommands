@@ -17,7 +17,8 @@ handler.setMessages({
     ownerOnly: (interaction) => interaction.reply("Missing **Bot Owner** permission."),
     permissions: (interaction, perms) => interaction.reply(`You are missing the following permissions: **${perms.join(", ")}**`),
     cooldown: (interaction, cooldown) => interaction.reply(`You must wait **${cooldown}** before executing another command.`),
-    notifyOwnerMessage: (owner) => owner.send("I'm online!");
+    notifyOwnerMessage: (owner) => owner.send("I'm online!"),
+    notifyCommandMessage: (owner, interaction) => owner.send("[OPCommands] Administrator command `" + interaction.commandName + "` was executed by " + `<@${interaction.user.id}> in **${interaction.guild.name}**`)
 });
 
 client.login("BOT_TOKEN");
