@@ -6,7 +6,6 @@ const ms = require("ms");
 const fs = require("fs");
 const path = require("path");
 const { time } = require("console");
-
 /**
  * Command Handler
  * @class
@@ -18,13 +17,10 @@ class CommandHandler {
         if (!this) throw new Error("[OPCommands] Internal error: missing _this parameter on Command Handler.");
         if (!commandsDir) throw new Error("[OPCommands] Internal error: missing eventsDir parameter on Command Handler.");
         if (!fs.existsSync(commandsDir)) throw new Error("[OPCommands] Unexisting command directory.");
-
         _this.client.commands = new Discord.Collection();
         const files = fs.readdirSync(commandsDir).filter(file => file.endsWith(".js"));
         const commands = [];
-
         if (_this.options.logs) console.log("[OPCommands] Loaded " + files.length + " commands.");
-
         for (const file of files) {
             const commandFile = require(path.join(require.main.path, commandsDir, file));
             _this.client.commands.set(commandFile.name, commandFile);
@@ -35,7 +31,6 @@ class CommandHandler {
             if (commandFile.options) Object.assign(commandObj, {options: commandFile.options});
             commands.push(JSON.stringify(commandObj));
         };
-
         _this.client.on("ready", async () => {
             const rest = new REST({ version: "9" }).setToken(_this.client.token);
             if (_this.options.notifyOwner && !_this.client.msgs.notifyOwnerMessage) throw new Error("[OPCommands] Missing notifyOwnerMessage parameter.");
@@ -71,7 +66,6 @@ class CommandHandler {
                 })();
             }
         });
-
         const cooldowns = new Discord.Collection();
         _this.client.on("interactionCreate", (interaction) => {
             if (!interaction.isCommand()) return;
@@ -109,14 +103,20 @@ class CommandHandler {
                     };
                 };
             };
-
             try {
                 if (_this.options.logs) console.log(`[OPCommands] Command '${interaction.commandName}' executed by: '${interaction.user.tag}'`);
                 _this.client.commands.get(interaction.commandName).run(_this.client, interaction);
                 if (_this.options.notifyOwner && (commandFile.limits.permissions == ('ADMINISTRATOR').toLowerCase())) {
+                    if(!_this.client.msgs.notifyCommandMessage) {
+                        // If there isn't any message, it uses the default one
                     _this.client.users.fetch(_this.client.owners[0]).then(user => {
                         user.send("[Logs] Administrator command `" + interaction.commandName + "` was executed by " + `<@${interaction.user.id}> in **${interaction.guild.name}**`);
                     });
+                    } else {
+                        _this.client.users.fetch(_this.client.owners[0]).then(user => {
+                        _this.client.msgs.notifyCommandMessage(user, interaction);
+                        })
+                    }
                 }
             } catch (e) {
                 if (_this.options.logs) console.log("[OPCommands] Command error: " + interaction.commandName);
@@ -125,5 +125,4 @@ class CommandHandler {
         });
     }
 }
-
 module.exports = CommandHandler;
