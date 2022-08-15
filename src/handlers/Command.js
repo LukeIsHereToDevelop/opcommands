@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const { Routes } = require('discord-api-types/v10');
 const hms = require("humanize-ms");
 const ms = require("ms");
 const fs = require("fs");

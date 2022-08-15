@@ -10,8 +10,8 @@ OPCommands is an advanced Discord.js Command Handler that supports slash command
 
 ## Requirements
 
-* Discord.js v13+
-* Node.js v16.6.0+
+* Discord.js v14+
+* Node.js v16.9.0+
 
 ## Installation
 

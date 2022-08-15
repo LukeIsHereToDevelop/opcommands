@@ -1,6 +1,7 @@
 /*
 
     FOR TESTING PURPOSES ONLY
+    ALL CONFIG-BASED VARIABLES WILL BE RESET ONCE THE CODE IS TESTED AND PROVEN TO WORK
 
 */
 
@@ -16,12 +17,12 @@ const client = new Discord.Client({
 const handler = new OPCommands(client, {
     commandsDir: "commands",
     eventsDir: "events",
-    testGuildID: "GUILD_ID",
+    testGuildID: config.test_server,
     testMode: false,
     logs: true,
     notifyOwner: true,
 });
-handler.setBotOwner("OWNER_ID");
+handler.setBotOwner(config.owner_id);
 handler.setMessages({
     ownerOnly: (interaction) => interaction.reply("Missing **Bot Owner** permission."),
     permissions: (interaction, perms) => interaction.reply(`You are missing the following permissions: **${perms.join(", ")}**`),
@@ -30,4 +31,4 @@ handler.setMessages({
     notifyCommandMessage: (owner, interaction) => owner.send("[OPCommands] Administrator command `" + interaction.commandName + "` was executed by " + `<@${interaction.user.id}> in **${interaction.guild.name}**`)
 });
 
-client.login("BOT_TOKEN");
+client.login(config.token);
