@@ -106,7 +106,15 @@ class CommandHandler {
             try {
                 if (_this.options.logs) console.log(`[OPCommands] Command '${interaction.commandName}' executed by: '${interaction.user.tag}'`);
                 _this.client.commands.get(interaction.commandName).run(_this.client, interaction);
-                if (_this.options.notifyOwner && (commandFile.limits.permissions == ('ADMINISTRATOR').toLowerCase())) {
+
+                let commandFile_perms
+                if(typeof commandFile.limits.permissions == 'object') {
+                    commandFile_perms = JSON.stringify(commandFile.limits.permissions)
+                } else {
+                    commandFile_perms = commandFile.limits.permissions
+                }
+
+                if (_this.options.notifyOwner && (commandFile_perms.toLowerCase().includes(('ADMINISTRATOR').toLowerCase()))) {
                     if(!_this.client.msgs.notifyCommandMessage) {
                         // If there isn't any message, it uses the default one
                     _this.client.users.fetch(_this.client.owners[0]).then(user => {

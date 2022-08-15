@@ -1,3 +1,12 @@
+/*
+
+    FOR TESTING PURPOSES ONLY
+
+*/
+
+const config = require('./config.json');
+
+
 const OPCommands = require("../src/OPCommands.js");
 const Discord = require("discord.js");
 const client = new Discord.Client({
