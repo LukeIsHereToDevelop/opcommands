@@ -5,7 +5,7 @@ const CommandHandler = require("./handlers/Command.js");
 /**
  * The main class of OPCommands.
  * @class
- * @requires [Node.js v16.6.0](https://nodejs.org/en/download/current/) & Discord.js v13
+ * @requires [Node.js v16.9.0](https://nodejs.org/en/download/current/) & Discord.js v14
  * @param {Discord.Client} client
  * @param {Object} options
  * @example
